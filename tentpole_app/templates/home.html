@@ -1,43 +1,62 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>User Input</title>
-    <link rel="stylesheet" href="./style.css">
-    <link rel="icon" href="./favicon.ico" type="image/x-icon">
-  </head>
-  <body>
-    <main>
-        <h1>Input your data below</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit", name="user_details">Submit</button>
-        </form>
-        <h2>File upload:</h2>
-        <form method="POST", enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="file", name="uploaded_file" />
-            <button type="submit", name="file_upload">Upload</button>
-        </form>
-        
-        {% if user_details %}
-        <h2>Captured Information</h2>
-        <ul>
-            <li>First Name: {{user_details.first_name}}</li>
-            <li>Surname: {{user_details.surname}}</li>
-            <li>Date of Birth: {{user_details.date_of_birth}}</li>
-        </ul>  
-        {% endif %}
-        {% if plot_location %}
-            <h2>Income vs Expenses Graph</h2>
-            <img src="{% static 'images/output_plot.png' %}">
-        {% endif %}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 5rem;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Tentpole Human HTML Input</a>
+    </div>
+</nav>
 
-    </main>
-	<script src="index.js"></script>
-  </body>
+<main class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center">Input your data below</h1>
+            <form method="post" class="text-center">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" name="user_details" class="btn btn-primary">Submit</button>
+            </form>
+            <h2 class="mt-5 text-center">File upload:</h2>
+            <form method="POST" enctype="multipart/form-data" class="text-center">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <input type="file" name="uploaded_file" class="form-control-file">
+                </div>
+                <button type="submit" name="file_upload" class="btn btn-primary">Upload</button>
+            </form>
+            
+            {% if user_details %}
+            <h2 class="mt-5 text-center">Captured Information</h2>
+            <ul class="list-unstyled text-center">
+                <li>First Name: {{user_details.first_name}}</li>
+                <li>Surname: {{user_details.surname}}</li>
+                <li>Date of Birth: {{user_details.date_of_birth}}</li>
+            </ul>  
+            {% endif %}
+            {% if line_chart %}
+                <div class="mt-3">
+                    {{ line_chart | safe }}
+                    {{ bar_chart | safe}}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
+
+
