@@ -16,8 +16,15 @@
             {{ form.as_p }}
             <button type="submit">Submit</button>
         </form>
-        <h2>Captured Information</h2>
+        <h2>File upload:</h2>
+        <form method="POST", enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file", name="uploaded_file" />
+            <button type="submit">Upload</button>
+        </form>
+        
         {% if user_details %}
+        <h2>Captured Information</h2>
         <ul>
             <li>First Name: {{user_details.first_name}}</li>
             <li>Surname: {{user_details.surname}}</li>
