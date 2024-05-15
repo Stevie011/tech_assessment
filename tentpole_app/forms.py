@@ -1,13 +1,7 @@
 from django import forms
 
-from .models import UserDetails, IncomeExpenses
-
-class UserDetailsForm(forms.ModelForm):
-    class Meta:
-        model = UserDetails
-        fields = "__all__"
-
-class ExcelSheetForm(forms.Form):
-    class Meta:
-        model = IncomeExpenses
-        fields = "__all__"
+class AllDetailsForm(forms.Form):
+    first_name = forms.CharField(max_length=50, required=True)
+    surname = forms.CharField(max_length=50, required=True)
+    date_of_birth = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True)
+    uploaded_file = forms.FileField(required=True)

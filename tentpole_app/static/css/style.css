@@ -1,0 +1,25 @@
+body {
+    padding-top: 5rem;
+}
+
+.charts-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chart {
+    flex-basis: 50%; /* Each chart will take up half the screen's width */
+    margin: 10px; /* Add some space around the charts */
+}
+
+@media (max-width: 768px) {
+    .chart {
+        flex-basis: 100%; /* Each chart will take up the full width */
+    }
+}
+
+.form-group {
+    padding: 10px; /* Adjust the padding value as needed */
+    margin-bottom: 15px; /* Adds space between form groups */
+}

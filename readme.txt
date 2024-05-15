@@ -8,8 +8,11 @@ Used import_export to handle files.  Followed tutorial here https://www.youtube.
 
 Matplotlib for the files (https://www.youtube.com/watch?v=jrT6NiM46jk).
 
+
+
 *Took me a second to realise the number in the file are randomly generated in a range. 
-*Also almost forgot to convert data to integers
+
+-Swapped matplotlib for plotly, simpler integration of interactive charts
 
 
 TO DO:
