@@ -1,22 +1,18 @@
-I used a very straightforward Django setup as per the documentation/many tutorials available online
+This Django webapp uses a simple HTML form to capture and process input data as 4 fields:
+    First Name, Surname, Date of Birth, and an .xlsx file containing their monthly income and expenditure. 
+The information from the excel sheet is parsed using tablib, and then the data is added to the sqlite database as models.
+The relevant data is then used to form a Pandas dataframe, which is used to draw a line and bar graph with Plotly.
 
-I created a model with the required fields, created a forms.py file and used the builtin ModelForm to generate the new form.
+*** NOTES ***
 
-I then added the form and the most recent UserDetails object to the page context and the html.
-
-Used import_export to handle files.  Followed tutorial here https://www.youtube.com/watch?v=gcaAEHEg1C4, thanks.
-
-Matplotlib for the files (https://www.youtube.com/watch?v=jrT6NiM46jk).
-
-
-
-*Took me a second to realise the number in the file are randomly generated in a range. 
+-I used a very straightforward Django setup as per the documentation/many tutorials available online.
 
 -Swapped matplotlib for plotly, simpler integration of interactive charts
 
+-Added responsiveness for mobile.
 
-TO DO:
 
-add verification for uploaded file type
-resources- some created but not used 
-figure out plot path properly
+*** NEXT STEPS ***
+
+-Add user login
+-Add recapture
