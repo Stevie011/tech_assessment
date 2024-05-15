@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -14,13 +15,13 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Submit</button>
+            <button type="submit", name="user_details">Submit</button>
         </form>
         <h2>File upload:</h2>
         <form method="POST", enctype="multipart/form-data">
             {% csrf_token %}
             <input type="file", name="uploaded_file" />
-            <button type="submit">Upload</button>
+            <button type="submit", name="file_upload">Upload</button>
         </form>
         
         {% if user_details %}
@@ -31,6 +32,11 @@
             <li>Date of Birth: {{user_details.date_of_birth}}</li>
         </ul>  
         {% endif %}
+        {% if plot_location %}
+            <h2>Income vs Expenses Graph</h2>
+            <img src="{% static 'images/output_plot.png' %}">
+        {% endif %}
+
     </main>
 	<script src="index.js"></script>
   </body>
