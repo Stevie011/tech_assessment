@@ -3,9 +3,7 @@ from django.shortcuts import render
 #user details form
 from .forms import AllDetailsForm
 #models for user details & income/expense data
-from .models import UserDetails, IncomeExpenses
-#to read the excel data
-from tablib import Dataset
+from .models import UserDetails
 #dataframes for easy plotting
 import pandas as pd
 #to draw the charts
@@ -25,27 +23,18 @@ def home_view(request):
             get_surname = request.POST.get('surname')
             surname_upper = get_surname[0].upper()+get_surname[1:].lower()
 
-            #create new user model here
-            new_user = UserDetails(first_name=first_name_upper, surname=surname_upper, date_of_birth = request.POST.get('date_of_birth'))
-            new_user.save()
-
-            #dataset from tablib
-            dataset = Dataset()
-            #get the uploaded file
+    
             new_sheet = request.FILES['uploaded_file']
-            #read the file as a dataset
-            imported_data = dataset.load(new_sheet.read(), format='xlsx')
-            #iterate through data
-            for item in imported_data:
-                #add fields as per model
-                value = IncomeExpenses(
-                    month=item[0],
-                    income=item[1],
-                    expenses=item[2]
-                )
-                value.save()
+            #convert sheet direclty to dataframe
+            df_test = pd.read_excel(new_sheet, engine='openpyxl')
+
+            df_json = df_test.to_json()
+
+            #create new user model here
+            new_user = UserDetails(first_name=first_name_upper, surname=surname_upper, date_of_birth = request.POST.get('date_of_birth'), data_frame=df_json)
+            new_user.save()
             #draw the graphs
-            line_chart, bar_chart = plot_graph()
+            line_chart, bar_chart = plot_graph(df_test)
             #add graphs to context
             context["line_chart"] = line_chart
             context["bar_chart"] = bar_chart
@@ -62,25 +51,10 @@ def home_view(request):
 
 
 
-def plot_graph():
-    #here we reverse the order to get the 12 most recently added
-    data = IncomeExpenses.objects.all().order_by('-id')[:12]
-    #then we reverse the order of the lists again to get back to the original
-    month_list = [item.month for item in data][::-1]
-    #convert the numbers from strings to ints for plotting
-    income_list = [int(item.income) for item in data][::-1]
-    expenses_list = [int(item.expenses) for item in data][::-1]
-    #save the data as a dictionary
-    data = {
-        "Month" : month_list,
-        "Income" : income_list,
-        "Expenses" : expenses_list
-    }
-    #convert the data to pandas dataframe
-    df = pd.DataFrame(data)
+def plot_graph(dataframe):
 
     #draw the line chart
-    line_plot = px.line(df,
+    line_plot = px.line(dataframe,
         x='Month',
         y=['Income','Expenses'],
         title="",
@@ -97,7 +71,7 @@ def plot_graph():
     line_chart = line_plot.to_html
 
     #draw the bar chart
-    bar_plot = px.bar(df, x='Month', y=['Income', 'Expenses'], barmode='group', 
+    bar_plot = px.bar(dataframe, x='Month', y=['Income', 'Expenses'], barmode='group', 
                color_discrete_map={'Income': 'blue', 'Expenses': 'red'})
     #tweak the appearance
     bar_plot.update_layout(

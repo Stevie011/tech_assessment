@@ -5,6 +5,9 @@ The relevant data is then used to form a Pandas dataframe, which is used to draw
 
 *** NOTES ***
 
+BIG CHANGE:
+No more tablib, convert xlsx straight to dataframe, use to plot graphs, turn df to json and store that in the user details model.
+
 -I used a very straightforward Django setup as per the documentation/many tutorials available online.
 
 -Swapped matplotlib for plotly, simpler integration of interactive charts
