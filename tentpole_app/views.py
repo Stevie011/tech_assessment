@@ -22,12 +22,11 @@ def home_view(request):
             first_name_upper = get_first_name[0].upper()+get_first_name[1:].lower()
             get_surname = request.POST.get('surname')
             surname_upper = get_surname[0].upper()+get_surname[1:].lower()
-
     
             new_sheet = request.FILES['uploaded_file']
             #convert sheet direclty to dataframe
             df_test = pd.read_excel(new_sheet, engine='openpyxl')
-
+            #convert df to json
             df_json = df_test.to_json()
 
             #create new user model here

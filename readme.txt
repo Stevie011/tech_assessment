@@ -5,6 +5,8 @@ The relevant data is then used to form a Pandas dataframe, which is used to draw
 
 *** NOTES ***
 
+LIMITATION- Currently only accepting .xlsx sheets with 3 columns
+
 BIG CHANGE:
 No more tablib, convert xlsx straight to dataframe, use to plot graphs, turn df to json and store that in the user details model.
 
